@@ -1,0 +1,13 @@
+WITH cleaned AS (
+  SELECT county_state_name,
+  population,
+  try_cast(replace(`GHG emissions mtons CO2e`, ',', '') AS DOUBLE) AS emissions_mtons
+  FROM emissions_data
+)
+SELECT county_state_name,
+population,
+ROUND(emissions_mtons / population, 2) AS emissions_per_person
+FROM cleaned
+WHERE population > 0
+ORDER BY emissions_per_person DESC
+LIMIT 10
