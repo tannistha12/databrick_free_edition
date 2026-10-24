@@ -1,0 +1,12 @@
+WITH cleaned AS (
+  SELECT state_abbr,
+  population,
+  try_cast(replace(`GHG emissions mtons CO2e`, ',', '') AS DOUBLE) AS emissions_mtons
+  FROM emissions_data
+)
+SELECT state_abbr,
+ROUND(SUM(emissions_mtons), 2) AS total_emissions
+FROM cleaned
+GROUP BY state_abbr
+ORDER BY total_emissions DESC
+LIMIT 10
