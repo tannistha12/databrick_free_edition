@@ -1,0 +1,13 @@
+WITH cleaned AS (
+  SELECT county_state_name,
+  population,
+  try_cast(replace(`GHG emissions mtons CO2e`, ',', '') AS DOUBLE) AS total_emissions
+  FROM emissions.default.emissions_data
+)
+SELECT county_state_name,
+population,
+total_emissions
+FROM cleaned
+WHERE population > 0
+ORDER BY total_emissions DESC
+LIMIT 10
