@@ -1,6 +1,6 @@
 # United States Greenhouse Gas Emissions Dashboard
 
-![Dashboard Screenshot](./dashboard_screenshot.png)
+![Dashboard_Screenshot](dashboard_ss/dashboard_screenshot.png)
 
 ## 📖 Overview
 
