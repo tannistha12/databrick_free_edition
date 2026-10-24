@@ -1,0 +1,24 @@
+WITH cleaned AS (
+  SELECT state_abbr,
+  population,
+  try_cast(replace(`GHG emissions mtons CO2e`, ',', '') AS DOUBLE) AS emissions_mtons
+  FROM emissions_data
+),
+state_totals AS (
+  SELECT state_abbr,
+  ROUND(SUM(emissions_mtons), 2) AS total_emissions
+  FROM cleaned
+  GROUP BY state_abbr
+),
+ranked AS (
+  SELECT
+  total_emissions,
+  ROUND(total_emissions / SUM(total_emissions) OVER () * 100, 2) AS pct_of_total
+  FROM state_totals
+  ORDER BY total_emissions DESC
+  LIMIT 10
+)
+SELECT 
+ROUND(SUM(total_emissions), 0) AS total_emissions,
+ROUND(SUM(pct_of_total), 2) AS pct_of_total
+FROM ranked
